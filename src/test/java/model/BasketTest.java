@@ -72,6 +72,16 @@ class BasketTest {
         assertEquals(returnedQuantity, 7);
     }
 
+    @Test
+    void givenOneElementInBasketWhenTryToModifyMapThenThrowsUnsupportedOperation() {
+        //Given
+        Item item2 = new Item("SampleItem2", 3.0);
+        basket.add(item, defaultTestQuantity);
+
+        //Then
+        assertThrows(UnsupportedOperationException.class, () -> basket.getElements().put(item2, defaultTestQuantity));
+    }
+
 
     @Test
     void givenEmptyBasketAddTwoItemsThenTwoElementsInside() {
@@ -111,6 +121,43 @@ class BasketTest {
         //Then
         returnedResult = basket.getElements();
         assertEquals(returnedResult, Collections.emptyMap());
+    }
+
+    @Test
+    void givenThreeItemsWhenRemoveTwoReturnsOneItem() {
+        //Given
+        Item item2 = new Item("SampleItem2", 2.5);
+        Item item3 = new Item("SampleItem3", 2.5);
+        basket.add(item, defaultTestQuantity);
+        basket.add(item2, defaultTestQuantity);
+        basket.add(item3, defaultTestQuantity);
+        expectedResult.put(item3, defaultTestQuantity);
+
+        //When
+        basket.remove(item, item2);
+
+        //Then
+        returnedResult = basket.getElements();
+        assertEquals(returnedResult, expectedResult);
+    }
+
+
+    @Test
+    void givenTwoItemsWhenRemoveOneThatNotExistThenNothingHappens() {
+        //Given
+        Item item2 = new Item("SampleItem2", 2.5);
+        Item item3 = new Item("SampleItem3", 2.5);
+        basket.add(item, defaultTestQuantity);
+        basket.add(item2, defaultTestQuantity);
+        expectedResult.put(item, defaultTestQuantity);
+        expectedResult.put(item2, defaultTestQuantity);
+
+        //When
+        basket.remove(item3);
+
+        //Then
+        returnedResult = basket.getElements();
+        assertEquals(returnedResult, expectedResult);
     }
 
     @Test

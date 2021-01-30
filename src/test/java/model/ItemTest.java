@@ -1,12 +1,12 @@
 package model;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ItemTest {
-    /*Class with shouldTest... nomencloature */
+    /*Class with shouldTest... nomenclature */
     //TODO codeCoverage
     private final double defaultValue = 1.0;
     private final String defaultItemName = "DefaultItem";
