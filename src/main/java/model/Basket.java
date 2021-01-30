@@ -15,6 +15,9 @@ public class Basket implements IBasket<Item> {
         else if (quantity == null) {
             throw new IllegalArgumentException("Cannot insert null quantity");
         }
+        else if (quantity < 0) {
+            throw new IllegalArgumentException("Cannot insert Item with negative quantity");
+        }
         if (basketElements.containsKey(item)) {
             quantity += basketElements.get(item);
         }
@@ -42,10 +45,8 @@ public class Basket implements IBasket<Item> {
         StringBuilder sb = new StringBuilder();
         sb.append("Basket contains: \n");
         sb.append("Item").append("\t").append("Value").append("\t").append("Quantity\n");
-        basketElements.forEach((k, v) -> {
-            sb.append(k.getName()).append("\t").append(k.getValue()).append("\t").append(v);
-        });
-        sb.append("\nTotal value: " + displayTotalValue());
+        basketElements.forEach((k, v) -> sb.append(k.getName()).append("\t").append(k.getValue()).append("\t").append(v));
+        sb.append("\nTotal value: ").append(displayTotalValue());
         return sb.toString();
     }
 

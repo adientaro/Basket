@@ -1,9 +1,9 @@
 package model;
 
 public interface IBasket<T> {
-    public void add(T item, Integer quantity);
-    public void remove(T item);
-    public void clear();
-    public double displayTotalValue();
-    //TODO make deispaly total value more customizable
+    void add(T item, Integer quantity);
+    void remove(T item);
+    void clear();
+    double displayTotalValue();
+    //TODO make display total value more customizable
 }

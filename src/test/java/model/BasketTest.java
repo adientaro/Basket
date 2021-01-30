@@ -53,6 +53,13 @@ class BasketTest {
     }
 
     @Test
+    void givenEmptyBasketWhenAddOneItemWithNegativeQuantityThrowsException() {
+        //Then
+        assertThrows(IllegalArgumentException.class, () -> basket.add(item, -10));
+    }
+
+
+    @Test
     void givenOneElementInBasketWhenAddTheSameItemCheckQuantity() {
         //Given
         basket.add(item, defaultTestQuantity);
