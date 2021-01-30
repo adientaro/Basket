@@ -1,10 +1,8 @@
 package model;
 
-import java.math.BigDecimal;
-
 public class Item {
-    private String name;
-    private double value;
+    private final String name;
+    private final double value;
 
     //TODO change to BigDecimal
 
@@ -26,6 +24,6 @@ public class Item {
 
     @Override
     public String toString() {
-        return  name + " " + value;
+        return name + " " + value;
     }
 }
