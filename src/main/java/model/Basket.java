@@ -1,21 +1,24 @@
 package model;
 
-import java.util.HashMap;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Basket implements IBasket<Item> {
 
-    //TODO
-    // Optionals, more tests, other types of containers
-    private final Map<Item, Integer> basketElements = new HashMap<>();
 
+    private final Map<Item, Integer> basketElements = new LinkedHashMap<>();
+    private static final String ITEM_ORDER_FORMAT = "%s (%.2f x %d = %.2f)";
+
+
+    @Override
     public void add(Item item, Integer quantity) {
         if (item == null)
             throw new IllegalArgumentException("Cannot insert null item");
         else if (quantity == null) {
             throw new IllegalArgumentException("Cannot insert null quantity");
-        }
-        else if (quantity < 0) {
+        } else if (quantity < 0) {
             throw new IllegalArgumentException("Cannot insert Item with negative quantity");
         }
         if (basketElements.containsKey(item)) {
@@ -25,28 +28,35 @@ public class Basket implements IBasket<Item> {
 
     }
 
-    public void remove(Item item) {
+    @Override
+    public void remove(Item... items) {
         if (basketElements.isEmpty())
             throw new IllegalStateException("Cannot remove items from empty basket");
-        basketElements.remove(item);
+        Arrays.stream(items).forEach(basketElements::remove);
     }
+
 
     @Override
     public void clear() {
         basketElements.clear();
     }
 
+    @Override
     public Map<Item, Integer> getElements() {
-        return basketElements;
+        return Collections.unmodifiableMap(basketElements);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Basket contains: \n");
-        sb.append("Item").append("\t").append("Value").append("\t").append("Quantity\n");
-        basketElements.forEach((k, v) -> sb.append(k.getName()).append("\t").append(k.getValue()).append("\t").append(v));
-        sb.append("\nTotal value: ").append(displayTotalValue());
+        basketElements.forEach((k, v) -> {
+            String item = String.format(ITEM_ORDER_FORMAT, k.getName(), k.getValue(), v, k.getValue() * v);
+            sb.append(item);
+            sb.append(System.lineSeparator());
+        });
+        sb.append(String.format("Total: %.2f", displayTotalValue()));
+        sb.append(System.lineSeparator());
         return sb.toString();
     }
 

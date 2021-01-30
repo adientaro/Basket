@@ -1,9 +1,12 @@
 package model;
 
+import java.util.Map;
+
 public interface IBasket<T> {
     void add(T item, Integer quantity);
-    void remove(T item);
+    @SuppressWarnings("unchecked")
+    void remove(T ... items);
     void clear();
     double displayTotalValue();
-    //TODO make display total value more customizable
+    Map<T,Integer> getElements();
 }
