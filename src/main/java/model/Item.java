@@ -1,10 +1,10 @@
 package model;
 
+import java.util.Objects;
+
 public class Item {
     private final String name;
     private final double value;
-
-    //TODO change to BigDecimal
 
     public Item(String name, double value) {
         if (name == null || name.isBlank()) {
@@ -20,6 +20,20 @@ public class Item {
 
     public double getValue() {
         return value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return Double.compare(item.value, value) == 0 &&
+                name.equals(item.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, value);
     }
 
     @Override
