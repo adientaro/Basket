@@ -4,22 +4,22 @@ import java.util.Objects;
 
 public class Item {
     private final String name;
-    private final double value;
+    private final double price;
 
-    public Item(String name, double value) {
+    public Item(String name, double price) {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Cannot insert item with empty name");
         }
         this.name = name;
-        this.value = value;
+        this.price = price;
     }
 
     public String getName() {
         return name;
     }
 
-    public double getValue() {
-        return value;
+    public double getPrice() {
+        return price;
     }
 
     @Override
@@ -27,17 +27,17 @@ public class Item {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Item item = (Item) o;
-        return Double.compare(item.value, value) == 0 &&
+        return Double.compare(item.price, price) == 0 &&
                 name.equals(item.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, value);
+        return Objects.hash(name, price);
     }
 
     @Override
     public String toString() {
-        return name + " " + value;
+        return name + " " + price;
     }
 }

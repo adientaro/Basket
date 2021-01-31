@@ -7,10 +7,8 @@ import java.util.Map;
 
 public class Basket implements IBasket<Item> {
 
-
-    private final Map<Item, Integer> basketElements = new LinkedHashMap<>();
     public static final String ITEM_ORDER_FORMAT = "%s (%.2f x %d = %.2f)";
-
+    private final Map<Item, Integer> basketElements = new LinkedHashMap<>();
 
     @Override
     public void add(Item item, Integer quantity) {
@@ -32,12 +30,11 @@ public class Basket implements IBasket<Item> {
     public void remove(Item... items) {
         if (basketElements.isEmpty())
             throw new UnsupportedOperationException("Cannot remove items from empty basket");
-       for (Item item : items) {
-           if (basketElements.containsKey(item)) {
-               basketElements.remove(item);
-           }
-           else throw new UnsupportedOperationException("Cannot remove not existing item");
-       }
+        Arrays.asList(items).forEach(item -> {
+            if (basketElements.containsKey(item)) {
+                basketElements.remove(item);
+            } else throw new UnsupportedOperationException("Cannot remove not existing item");
+        });
     }
 
 
@@ -55,7 +52,7 @@ public class Basket implements IBasket<Item> {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         basketElements.forEach((k, v) -> {
-            String item = String.format(ITEM_ORDER_FORMAT, k.getName(), k.getValue(), v, k.getValue() * v);
+            String item = String.format(ITEM_ORDER_FORMAT, k.getName(), k.getPrice(), v, k.getPrice() * v);
             sb.append(item);
             sb.append(System.lineSeparator());
         });
@@ -67,7 +64,7 @@ public class Basket implements IBasket<Item> {
     public double displayTotalValue() {
         double result = 0;
         for (Map.Entry<Item, Integer> entry : basketElements.entrySet()) {
-            result += entry.getKey().getValue() * entry.getValue();
+            result += entry.getKey().getPrice() * entry.getValue();
         }
         return result;
     }
