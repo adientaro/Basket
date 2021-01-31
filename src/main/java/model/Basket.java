@@ -9,7 +9,7 @@ public class Basket implements IBasket<Item> {
 
 
     private final Map<Item, Integer> basketElements = new LinkedHashMap<>();
-    private static final String ITEM_ORDER_FORMAT = "%s (%.2f x %d = %.2f)";
+    public static final String ITEM_ORDER_FORMAT = "%s (%.2f x %d = %.2f)";
 
 
     @Override
@@ -18,7 +18,7 @@ public class Basket implements IBasket<Item> {
             throw new IllegalArgumentException("Cannot insert null item");
         else if (quantity == null) {
             throw new IllegalArgumentException("Cannot insert null quantity");
-        } else if (quantity < 0) {
+        } else if (quantity <= 0) {
             throw new IllegalArgumentException("Cannot insert Item with negative quantity");
         }
         if (basketElements.containsKey(item)) {
@@ -31,8 +31,13 @@ public class Basket implements IBasket<Item> {
     @Override
     public void remove(Item... items) {
         if (basketElements.isEmpty())
-            throw new IllegalStateException("Cannot remove items from empty basket");
-        Arrays.stream(items).forEach(basketElements::remove);
+            throw new UnsupportedOperationException("Cannot remove items from empty basket");
+       for (Item item : items) {
+           if (basketElements.containsKey(item)) {
+               basketElements.remove(item);
+           }
+           else throw new UnsupportedOperationException("Cannot remove not existing item");
+       }
     }
 
 
@@ -49,7 +54,6 @@ public class Basket implements IBasket<Item> {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Basket contains: \n");
         basketElements.forEach((k, v) -> {
             String item = String.format(ITEM_ORDER_FORMAT, k.getName(), k.getValue(), v, k.getValue() * v);
             sb.append(item);
