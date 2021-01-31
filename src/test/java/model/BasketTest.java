@@ -134,7 +134,7 @@ class BasketTest {
         basket.add(item, quantity);
 
         var expectedString = String.format(Basket.ITEM_ORDER_FORMAT, item.getName(),
-                item.getValue(), quantity, item.getValue() * quantity) +
+                item.getPrice(), quantity, item.getPrice() * quantity) +
                 System.lineSeparator() +
                 String.format("Total: %.2f", computeTotalValue(item, quantity)) +
                 System.lineSeparator();
@@ -143,7 +143,7 @@ class BasketTest {
     }
 
     private double computeTotalValue(Item item, Integer quantity) {
-        return item.getValue() * quantity;
+        return item.getPrice() * quantity;
     }
 
     private Map<Item, Integer> createBasket(Object... parameters) {
